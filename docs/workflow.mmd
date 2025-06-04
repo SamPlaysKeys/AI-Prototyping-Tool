@@ -1,0 +1,56 @@
+sequenceDiagram
+    participant U as User
+    participant APT as AI Prototyping Tool
+    participant LMS as LM Studio Client
+    participant AI as Local AI Model
+    participant FS as File System
+
+    U->>APT: Initial Prompt/Idea
+    APT->>APT: Initialize Analysis
+
+    Note over APT,AI: Step 1: Problem Statement
+    APT->>LMS: Generate Problem Statement
+    LMS->>AI: API Request with System Prompt
+    AI-->>LMS: Problem Statement Response
+    LMS-->>APT: Formatted Problem Statement
+
+    Note over APT,AI: Step 2: User Personas
+    APT->>LMS: Generate Personas (with Problem Statement)
+    LMS->>AI: API Request with Context
+    AI-->>LMS: Personas Response
+    LMS-->>APT: Formatted Personas
+
+    Note over APT,AI: Step 3: Use Cases
+    APT->>LMS: Generate Use Cases (with Problem + Personas)
+    LMS->>AI: API Request with Context
+    AI-->>LMS: Use Cases Response
+    LMS-->>APT: Formatted Use Cases
+
+    Note over APT,AI: Step 4: Tool Outline
+    APT->>LMS: Generate Tool Outline (with all context)
+    LMS->>AI: API Request with Full Context
+    AI-->>LMS: Tool Outline Response
+    LMS-->>APT: Formatted Tool Outline
+
+    Note over APT,AI: Step 5: Implementation Instructions
+    APT->>LMS: Generate Implementation Plan
+    LMS->>AI: API Request with Tool Outline
+    AI-->>LMS: Implementation Instructions
+    LMS-->>APT: Formatted Instructions
+
+    Note over APT,AI: Step 6: CoPilot Prompt
+    APT->>LMS: Generate Presentation Prompt
+    LMS->>AI: API Request with All Content
+    AI-->>LMS: CoPilot365 Prompt
+    LMS-->>APT: Formatted Prompt
+
+    Note over APT,AI: Step 7: Plan Evaluation
+    APT->>LMS: Evaluate Complete Plan
+    LMS->>AI: API Request with Full Analysis
+    AI-->>LMS: Evaluation & Next Steps
+    LMS-->>APT: Formatted Evaluation
+
+    Note over APT,FS: Output Generation
+    APT->>FS: Save JSON Report
+    APT->>FS: Save Markdown Report
+    APT->>U: Display Summary & File Locations

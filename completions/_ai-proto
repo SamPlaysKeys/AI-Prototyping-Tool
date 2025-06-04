@@ -1,0 +1,98 @@
+#compdef ai-proto
+
+# Zsh completion script for ai-proto CLI tool
+#
+# Installation:
+#   # For oh-my-zsh users:
+#   mkdir -p ~/.oh-my-zsh/completions
+#   cp _ai-proto ~/.oh-my-zsh/completions/
+#
+#   # For standard zsh installation:
+#   # Place this file in a directory in your $fpath, e.g.:
+#   mkdir -p ~/.zsh/completions
+#   cp _ai-proto ~/.zsh/completions/
+#   # Add to ~/.zshrc:
+#   fpath=(~/.zsh/completions $fpath)
+#   autoload -U compinit && compinit
+
+_ai-proto() {
+    local context state state_descr line
+    typeset -A opt_args
+
+    local deliverable_types=(
+        'problem_statement:Generate problem statement documentation'
+        'personas:Create user personas'
+        'use_cases:Develop use cases and scenarios'
+        'tool_outline:Create tool architecture outline'
+        'implementation_instructions:Generate implementation guide'
+        'copilot365_presentation_prompt:Create presentation prompts for Copilot 365'
+        'effectiveness_assessment:Generate effectiveness assessment framework'
+    )
+
+    local output_formats=(
+        'markdown:Output in Markdown format'
+        'json:Output in JSON format'
+    )
+
+    local completion_modes=(
+        'sequential:Process deliverables one by one'
+        'batch:Process all deliverables at once'
+        'streaming:Process with streaming support'
+    )
+
+    _arguments -C \
+        '1: :->commands' \
+        '*: :->args' && return 0
+
+    case $state in
+        commands)
+            local commands=(
+                'generate:Generate AI documentation from prompts'
+                'models:List available models in LM Studio'
+                'deliverables:List available deliverable types'
+                'health:Check LM Studio connection and health'
+            )
+            _describe 'commands' commands
+            ;;
+        args)
+            case $words[2] in
+                generate)
+                    _arguments \
+                        '(-p --prompt)'{-p,--prompt}'[Text prompt for generation]:prompt text:' \
+                        '(-f --prompt-file)'{-f,--prompt-file}'[File containing prompt text]:prompt file:_files' \
+                        '(-t --deliverable-types)'{-t,--deliverable-types}'[Types of deliverables to generate]:deliverable type:_values -s , "deliverable types" $deliverable_types' \
+                        '(-m --model)'{-m,--model}'[LM Studio model to use]:model name:' \
+                        '--lm-studio-url[LM Studio base URL]:URL:(http://localhost:1234/v1)' \
+                        '--api-key[API key for LM Studio]:API key:' \
+                        '(-o --output)'{-o,--output}'[Output directory]:output directory:_directories' \
+                        '--output-format[Output format]:format:_values "output formats" $output_formats' \
+                        '--show-html[Generate HTML preview of markdown content]' \
+                        '--raw[Output raw content without formatting]' \
+                        '(--merge --no-merge)--merge[Merge multiple deliverables into single document]' \
+                        '(--merge --no-merge)--no-merge[Do not merge deliverables]' \
+                        '--max-tokens[Maximum tokens for generation]:tokens:(1024 2048 4096)' \
+                        '--temperature[Temperature for generation]:temperature:(0.0 0.3 0.7 1.0)' \
+                        '--top-p[Top-p for generation]:top-p:(0.1 0.5 0.9 1.0)' \
+                        '--completion-mode[Completion mode]:mode:_values "completion modes" $completion_modes' \
+                        '--save-config[Save current configuration to file]:config file:_files' \
+                        '--dry-run[Show what would be generated without actually generating]' \
+                        '(-v --verbose)'{-v,--verbose}'[Increase verbosity]' \
+                        '--config-file[Path to configuration file]:config file:_files' \
+                        '--help[Show help message]'
+                    ;;
+                models|health)
+                    _arguments \
+                        '--lm-studio-url[LM Studio base URL]:URL:(http://localhost:1234/v1)' \
+                        '--api-key[API key for LM Studio]:API key:' \
+                        '--help[Show help message]'
+                    ;;
+                deliverables)
+                    _arguments \
+                        '--help[Show help message]'
+                    ;;
+            esac
+            ;;
+    esac
+}
+
+_ai-proto "$@"

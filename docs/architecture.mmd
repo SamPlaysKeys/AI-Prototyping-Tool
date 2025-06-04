@@ -1,0 +1,45 @@
+graph TD
+    A[User Input/Prompt] --> B[AI Prototyping Tool]
+    B --> C[LM Studio Client]
+    C --> D[Local AI Model]
+
+    B --> E[Problem Statement Generator]
+    B --> F[Persona Generator]
+    B --> G[Use Case Generator]
+    B --> H[Tool Outline Generator]
+    B --> I[Implementation Instructions Generator]
+    B --> J[CoPilot Prompt Generator]
+    B --> K[Plan Evaluator]
+
+    E --> L[Problem Statement]
+    F --> M[User Personas]
+    G --> N[Use Cases]
+    H --> O[Tool Outline]
+    I --> P[Implementation Instructions]
+    J --> Q[CoPilot365 Presentation Prompt]
+    K --> R[Plan Evaluation & Next Steps]
+
+    L --> S[JSON Output]
+    M --> S
+    N --> S
+    O --> S
+    P --> S
+    Q --> S
+    R --> S
+
+    L --> T[Markdown Report]
+    M --> T
+    N --> T
+    O --> T
+    P --> T
+    Q --> T
+    R --> T
+
+    D -.->|API Calls| C
+    C -.->|Responses| B
+
+    style A fill:#e1f5fe
+    style D fill:#fff3e0
+    style S fill:#e8f5e8
+    style T fill:#e8f5e8
+    style B fill:#f3e5f5

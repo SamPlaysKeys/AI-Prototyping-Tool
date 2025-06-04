@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-prototyping-config
+  namespace: ai-prototyping-tool
+  labels:
+    app.kubernetes.io/name: ai-prototyping-tool
+    app.kubernetes.io/component: config
+data:
+  config.toml: |
+    [app]
+    name = "AI Prototyping Tool"
+    version = "1.0.0"
+    environment = "production"
+    debug = false
+
+    [server]
+    host = "0.0.0.0"
+    port = 8000
+    workers = 1
+    reload = false
+
+    [logging]
+    level = "INFO"
+    format = "structured"
+    enable_file_logging = true
+    log_directory = "logs"
+    max_file_size_mb = 10
+    max_files = 5
+    enable_trace_ids = true
+
+    [lm_studio]
+    base_url = "http://lmstudio-mock-service:1234"
+    api_key = ""
+    auto_detect = true
+    health_check_interval = 30
+    connection_timeout = 5.0
+    request_timeout = 120.0
+
+    [model]
+    default_name = ""
+    max_tokens = 2048
+    temperature = 0.7
+    top_p = 0.9
+    retries = 3
+
+    [output]
+    format = "markdown"
+    theme = "default"
+    merge_deliverables = true
+    include_toc = true
+    add_metadata = true
+    auto_save = true
+    output_directory = "./output"
+
+    [deliverables]
+    default_types = ["problem_statement"]
+    completion_mode = "sequential"
+    parallel_limit = 3
+    template_directory = "templates"
+
+    [error_handling]
+    enable_global_handler = true
+    user_friendly_messages = true
+    include_stack_traces = false
+    log_errors = true
+    error_page_template = "error.html"
+
+    [security]
+    enable_cors = true
+    allowed_origins = ["*"]
+    api_key_header = "X-API-Key"
+    rate_limit_requests = 100
+    rate_limit_window = 3600
+
+    [monitoring]
+    enable_metrics = true
+    metrics_endpoint = "/metrics"
+    health_endpoint = "/health"
+    ready_endpoint = "/ready"

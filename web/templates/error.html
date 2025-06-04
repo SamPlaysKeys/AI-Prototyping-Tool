@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ error.title or 'Error' }} - AI Prototyping Tool</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .error-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .error-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        .critical { color: #e74c3c; }
+        .high { color: #f39c12; }
+        .medium { color: #f1c40f; }
+        .low { color: #3498db; }
+
+        .error-title {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .error-message {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #7f8c8d;
+            line-height: 1.5;
+        }
+        .error-details {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .error-id {
+            font-family: monospace;
+            background: #34495e;
+            color: white;
+            padding: 10px;
+            border-radius: 3px;
+            font-size: 14px;
+            word-break: break-all;
+            margin: 5px 0;
+        }
+        .suggestions {
+            text-align: left;
+            margin: 20px 0;
+        }
+        .suggestions h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .suggestions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .suggestions li {
+            background: #e8f5e8;
+            margin: 5px 0;
+            padding: 10px;
+            border-left: 4px solid #27ae60;
+            border-radius: 3px;
+        }
+        .debug-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .stack-trace {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .timestamp {
+            color: #95a5a6;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        .back-button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 5px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background: #2980b9;
+        }
+        .retry-button {
+            background: #27ae60;
+        }
+        .retry-button:hover {
+            background: #229954;
+        }
+        .copy-button {
+            background: #8e44ad;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        .copy-button:hover {
+            background: #7d3c98;
+        }
+        .copied {
+            background: #27ae60 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon {{ error.severity or 'medium' }}">
+            {% if error.severity == 'critical' %}🚨
+            {% elif error.severity == 'high' %}⚠️
+            {% elif error.severity == 'medium' %}⚡
+            {% else %}ℹ️{% endif %}
+        </div>
+
+        <h1 class="error-title">{{ error.title or 'An Error Occurred' }}</h1>
+        <p class="error-message">{{ error.message or 'Something went wrong. Please try again.' }}</p>
+
+        <div class="error-details">
+            <strong>Error ID:</strong>
+            <div class="error-id">{{ error.id }}</div>
+
+            {% if error.trace_id %}
+            <strong>Trace ID:</strong>
+            <div class="error-id">{{ error.trace_id }}</div>
+            {% endif %}
+
+            {% if error.category %}
+            <br><strong>Category:</strong> {{ error.category.title() }}
+            {% endif %}
+
+            {% if error.severity %}
+            <br><strong>Severity:</strong>
+            <span class="{{ error.severity }}">{{ error.severity.title() }}</span>
+            {% endif %}
+        </div>
+
+        {% if error.suggestions %}
+        <div class="suggestions">
+            <h3>💡 Suggested Solutions:</h3>
+            <ul>
+                {% for suggestion in error.suggestions %}
+                <li>{{ suggestion }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if debug and error.debug %}
+        <div class="debug-info">
+            <h3>🐛 Debug Information:</h3>
+
+            {% if error.debug.stack_trace %}
+            <h4>Stack Trace:</h4>
+            <div class="stack-trace" id="stackTrace">{{ error.debug.stack_trace }}</div>
+            <button class="copy-button back-button" onclick="copyStackTrace()">📋 Copy Stack Trace</button>
+            {% endif %}
+
+            {% if error.debug.details %}
+            <h4>Additional Details:</h4>
+            <pre>{{ error.debug.details | tojson(indent=2) }}</pre>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="timestamp">
+            Occurred at: {{ error.timestamp }}
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="/" class="back-button">🏠 Back to Home</a>
+            <a href="javascript:history.back()" class="back-button">⬅️ Go Back</a>
+            <a href="javascript:location.reload()" class="back-button retry-button">🔄 Retry</a>
+        </div>
+    </div>
+
+    <script>
+        function copyStackTrace() {
+            const stackTrace = document.getElementById('stackTrace');
+            const button = event.target;
+
+            if (stackTrace && navigator.clipboard) {
+                navigator.clipboard.writeText(stackTrace.textContent).then(() => {
+                    button.textContent = '✅ Copied!';
+                    button.classList.add('copied');
+
+                    setTimeout(() => {
+                        button.textContent = '📋 Copy Stack Trace';
+                        button.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    button.textContent = '❌ Failed to copy';
+                });
+            }
+        }
+
+        // Auto-hide debug info in production
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            const debugInfo = document.querySelector('.debug-info');
+            if (debugInfo) {
+                debugInfo.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

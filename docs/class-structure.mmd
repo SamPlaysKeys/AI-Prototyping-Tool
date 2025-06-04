@@ -1,0 +1,50 @@
+classDiagram
+    class LMStudioClient {
+        -base_url: str
+        -api_url: str
+        +__init__(base_url: str)
+        +generate_response(prompt: str, system_prompt: str, max_tokens: int) str
+    }
+
+    class AIPrototypingTool {
+        -client: LMStudioClient
+        -results: Dict[str, str]
+        +__init__(lm_studio_url: str)
+        +generate_problem_statement(user_prompt: str) str
+        +generate_personas(problem_statement: str) str
+        +generate_use_cases(problem_statement: str, personas: str) str
+        +generate_tool_outline(problem_statement: str, personas: str, use_cases: str) str
+        +generate_implementation_instructions(tool_outline: str) str
+        +generate_copilot_presentation_prompt(all_content: Dict) str
+        +evaluate_plan_accuracy(all_content: Dict) str
+        +run_full_analysis(user_prompt: str) Dict[str, str]
+        +save_results(filename: str) str
+        +generate_markdown_report(filename: str) str
+    }
+
+    class PrototypingWorkflow {
+        <<enumeration>>
+        PROBLEM_STATEMENT
+        PERSONAS
+        USE_CASES
+        TOOL_OUTLINE
+        IMPLEMENTATION
+        COPILOT_PROMPT
+        PLAN_EVALUATION
+    }
+
+    class OutputFormat {
+        <<enumeration>>
+        JSON
+        MARKDOWN
+        CONSOLE
+    }
+
+    AIPrototypingTool --> LMStudioClient : uses
+    AIPrototypingTool --> PrototypingWorkflow : follows
+    AIPrototypingTool --> OutputFormat : generates
+
+    note for LMStudioClient "Handles all communication\nwith LM Studio API"
+    note for AIPrototypingTool "Main orchestrator for\nthe prototyping process"
+    note for PrototypingWorkflow "Defines the sequential\nsteps of analysis"
+    note for OutputFormat "Supported output formats\nfor results"

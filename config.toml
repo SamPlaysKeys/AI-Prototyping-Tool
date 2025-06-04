@@ -1,0 +1,75 @@
+# AI Prototyping Tool Configuration
+# This file contains centralized configuration for the application
+# All settings can be overridden via environment variables using the format:
+# AIPROTO_<SECTION>_<KEY> (e.g., AIPROTO_LOGGING_LEVEL=DEBUG)
+
+[app]
+name = "AI Prototyping Tool"
+version = "1.0.0"
+environment = "development"  # development, staging, production
+debug = false
+
+[server]
+host = "0.0.0.0"
+port = 8000
+workers = 1
+reload = true
+
+[logging]
+level = "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+format = "structured"  # structured (JSON) or simple
+enable_file_logging = true
+log_directory = "logs"
+max_file_size_mb = 10
+max_files = 5
+enable_trace_ids = true
+
+[lm_studio]
+base_url = "http://localhost:1234/v1"
+api_key = ""  # Optional API key
+auto_detect = true
+health_check_interval = 30
+connection_timeout = 5.0
+request_timeout = 120.0
+
+[model]
+default_name = ""
+max_tokens = 2048
+temperature = 0.7
+top_p = 0.9
+retries = 3
+
+[output]
+format = "markdown"  # markdown, html, json
+theme = "default"  # default, github, minimal, dark, professional
+merge_deliverables = true
+include_toc = true
+add_metadata = true
+auto_save = true
+output_directory = "./output"
+
+[deliverables]
+default_types = ["problem_statement"]
+completion_mode = "sequential"  # sequential, batch, streaming
+parallel_limit = 3
+template_directory = "templates"
+
+[error_handling]
+enable_global_handler = true
+user_friendly_messages = true
+include_stack_traces = false  # Only in debug mode
+log_errors = true
+error_page_template = "error.html"
+
+[security]
+enable_cors = true
+allowed_origins = ["*"]
+api_key_header = "X-API-Key"
+rate_limit_requests = 100
+rate_limit_window = 3600  # seconds
+
+[monitoring]
+enable_metrics = true
+metrics_endpoint = "/metrics"
+health_endpoint = "/health"
+ready_endpoint = "/ready"

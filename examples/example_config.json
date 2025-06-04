@@ -1,0 +1,30 @@
+{
+  "default_model": "mistral-7b-instruct",
+  "deliverables": {
+    "custom_prompts": {
+      "personas": "Include technical skill levels and tool preferences",
+      "problem_statement": "Focus on business value and user impact",
+      "use_cases": "Prioritize by frequency and business impact"
+    },
+    "enabled": [
+      "problem_statement",
+      "personas",
+      "use_cases",
+      "tool_outline",
+      "implementation_instructions",
+      "copilot_prompt",
+      "plan_evaluation"
+    ]
+  },
+  "generation_settings": {
+    "max_tokens": 2048,
+    "temperature": 0.7,
+    "timeout": 120
+  },
+  "lm_studio_url": "http://localhost:1234",
+  "output_settings": {
+    "auto_timestamp": true,
+    "format": "both",
+    "include_metadata": true
+  }
+}

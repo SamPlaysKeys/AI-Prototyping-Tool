@@ -1,0 +1,20 @@
+apiVersion: v2
+name: ai-prototyping-tool
+description: A Helm chart for AI Prototyping Tool
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+home: https://github.com/yourusername/ai-prototyping-tool
+sources:
+  - https://github.com/yourusername/ai-prototyping-tool
+maintainers:
+  - name: Your Name
+    email: your.email@example.com
+keywords:
+  - ai
+  - prototyping
+  - machine-learning
+  - lm-studio
+icon: https://raw.githubusercontent.com/yourusername/ai-prototyping-tool/main/docs/logo.png
+dependencies: []
+engine: gotpl

@@ -1,0 +1,72 @@
+flowchart LR
+    subgraph Input ["📥 Input Layer"]
+        A[User Prompt]
+        B[CLI Arguments]
+        C[Configuration]
+    end
+
+    subgraph Processing ["⚙️ Processing Layer"]
+        D[Problem Statement]
+        E[User Personas]
+        F[Use Cases]
+        G[Tool Outline]
+        H[Implementation Plan]
+        I[Presentation Prompt]
+        J[Plan Evaluation]
+    end
+
+    subgraph AI ["🤖 AI Layer"]
+        K[LM Studio API]
+        L[Local AI Model]
+        M[System Prompts]
+    end
+
+    subgraph Output ["📤 Output Layer"]
+        N[JSON Report]
+        O[Markdown Report]
+        P[Console Display]
+        Q[File System]
+    end
+
+    %% Input to Processing Flow
+    A --> D
+    B --> D
+    C --> D
+
+    %% Sequential Processing Flow
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+
+    %% AI Integration
+    D <--> K
+    E <--> K
+    F <--> K
+    G <--> K
+    H <--> K
+    I <--> K
+    J <--> K
+
+    K <--> L
+    M --> K
+
+    %% Output Generation
+    J --> N
+    J --> O
+    J --> P
+    N --> Q
+    O --> Q
+
+    %% Styling
+    classDef inputStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef processStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef aiStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef outputStyle fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+
+    class A,B,C inputStyle
+    class D,E,F,G,H,I,J processStyle
+    class K,L,M aiStyle
+    class N,O,P,Q outputStyle

@@ -1,90 +1,348 @@
 # AI Prototyping Tool
 
-A powerful tool for rapid AI application prototyping with both CLI and web interfaces.
+A comprehensive tool that uses LM Studio and local AI models to guide users through the complete prototyping process, from initial idea to implementation plan and presentation generation.
 
-## Features
+## 🎯 Overview
 
-- CLI interface for quick prototyping
-- Web application for interactive development
-- Template system for prompts and outputs
-- Integration with multiple AI providers (OpenAI, Anthropic, etc.)
-- Extensible architecture
+This tool transforms your initial ideas into structured, actionable prototyping plans by generating:
 
-## Installation
+- 📋 **Problem Statement** - Clear definition of the core issue or opportunity
+- 👥 **User Personas** - Detailed profiles of target users
+- 📝 **Use Cases** - Comprehensive scenarios and user interactions
+- 🔧 **Tool Outline** - Technical architecture and feature breakdown
+- 📚 **Implementation Instructions** - Step-by-step development guide
+- 🎯 **CoPilot365 Presentation Prompt** - Ready-to-use prompt for generating presentations
+- 🔍 **Plan Evaluation** - Assessment of accuracy, effectiveness, and next steps
 
-1. Clone the repository:
+## 🏠 Architecture
+
+```mermaid
+graph TD
+    A[User Input/Prompt] --> B[AI Prototyping Tool]
+    B --> C[LM Studio Client]
+    C --> D[Local AI Model]
+
+    B --> E[Problem Statement Generator]
+    B --> F[Persona Generator]
+    B --> G[Use Case Generator]
+    B --> H[Tool Outline Generator]
+    B --> I[Implementation Instructions Generator]
+    B --> J[CoPilot Prompt Generator]
+    B --> K[Plan Evaluator]
+
+    E --> L[Problem Statement]
+    F --> M[User Personas]
+    G --> N[Use Cases]
+    H --> O[Tool Outline]
+    I --> P[Implementation Instructions]
+    J --> Q[CoPilot365 Presentation Prompt]
+    K --> R[Plan Evaluation & Next Steps]
+
+    L --> S[JSON Output]
+    M --> S
+    N --> S
+    O --> S
+    P --> S
+    Q --> S
+    R --> S
+
+    L --> T[Markdown Report]
+    M --> T
+    N --> T
+    O --> T
+    P --> T
+    Q --> T
+    R --> T
+
+    D -.->|API Calls| C
+    C -.->|Responses| B
+
+    style A fill:#e1f5fe
+    style D fill:#fff3e0
+    style S fill:#e8f5e8
+    style T fill:#e8f5e8
+    style B fill:#f3e5f5
+```
+
+## 🔄 Workflow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant APT as AI Prototyping Tool
+    participant LMS as LM Studio Client
+    participant AI as Local AI Model
+    participant FS as File System
+
+    U->>APT: Initial Prompt/Idea
+    APT->>APT: Initialize Analysis
+
+    Note over APT,AI: Step 1: Problem Statement
+    APT->>LMS: Generate Problem Statement
+    LMS->>AI: API Request with System Prompt
+    AI-->>LMS: Problem Statement Response
+    LMS-->>APT: Formatted Problem Statement
+
+    Note over APT,AI: Step 2: User Personas
+    APT->>LMS: Generate Personas (with Problem Statement)
+    LMS->>AI: API Request with Context
+    AI-->>LMS: Personas Response
+    LMS-->>APT: Formatted Personas
+
+    Note over APT,AI: Step 3: Use Cases
+    APT->>LMS: Generate Use Cases (with Problem + Personas)
+    LMS->>AI: API Request with Context
+    AI-->>LMS: Use Cases Response
+    LMS-->>APT: Formatted Use Cases
+
+    Note over APT,AI: Step 4: Tool Outline
+    APT->>LMS: Generate Tool Outline (with all context)
+    LMS->>AI: API Request with Full Context
+    AI-->>LMS: Tool Outline Response
+    LMS-->>APT: Formatted Tool Outline
+
+    Note over APT,AI: Step 5: Implementation Instructions
+    APT->>LMS: Generate Implementation Plan
+    LMS->>AI: API Request with Tool Outline
+    AI-->>LMS: Implementation Instructions
+    LMS-->>APT: Formatted Instructions
+
+    Note over APT,AI: Step 6: CoPilot Prompt
+    APT->>LMS: Generate Presentation Prompt
+    LMS->>AI: API Request with All Content
+    AI-->>LMS: CoPilot365 Prompt
+    LMS-->>APT: Formatted Prompt
+
+    Note over APT,AI: Step 7: Plan Evaluation
+    APT->>LMS: Evaluate Complete Plan
+    LMS->>AI: API Request with Full Analysis
+    AI-->>LMS: Evaluation & Next Steps
+    LMS-->>APT: Formatted Evaluation
+
+    Note over APT,FS: Output Generation
+    APT->>FS: Save JSON Report
+    APT->>FS: Save Markdown Report
+    APT->>U: Display Summary & File Locations
+```
+
+## 🛠️ Installation & Setup
+
+### Prerequisites
+
+1. **LM Studio** - Download and install from [lmstudio.ai](https://lmstudio.ai/)
+2. **Python 3.8+** - Ensure you have Python installed
+3. **Local AI Model** - Download a suitable model in LM Studio (e.g., Llama 2, Code Llama, etc.)
+
+### Installation Steps
+
+1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/your-username/AI-Prototyping-Tool.git
    cd AI-Prototyping-Tool
    ```
 
-2. Create and activate virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. Install dependencies:
+2. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Install pre-commit hooks:
+3. **Start LM Studio:**
+   - Open LM Studio
+   - Load your preferred AI model
+   - Start the local server (default: http://localhost:1234)
+
+4. **Make the script executable:**
    ```bash
-   pre-commit install
+   chmod +x ai_prototyping_tool.py
    ```
 
-## Development
+## 🚀 Usage
 
-### Directory Structure
+### Command Line Interface
 
-- `src/` - Core modules and business logic
-- `cli/` - Command-line interface
-- `web/` - Web application
-- `templates/` - Prompt and output templates
-- `tests/` - Test suite
-
-### Running Tests
-
+#### Basic Usage
 ```bash
-pytest
+python ai_prototyping_tool.py --prompt "Your initial idea or problem description"
 ```
 
-### Code Quality
-
-The project uses pre-commit hooks for:
-- Code formatting with Black
-- Linting with flake8
-- Various file checks
-
-Run manually:
+#### Interactive Mode
 ```bash
-black .
-flake8
+python ai_prototyping_tool.py --interactive
 ```
 
-## Usage
-
-### CLI
-
+#### Custom LM Studio URL
 ```bash
-# TODO: Add CLI usage examples
+python ai_prototyping_tool.py --url "http://localhost:1234" --prompt "Your idea"
 ```
 
-### Web Interface
-
+#### Specify Output Files
 ```bash
-# TODO: Add web interface usage
+python ai_prototyping_tool.py --prompt "Your idea" --output-json "my_analysis.json" --output-md "my_report.md"
 ```
 
-## Contributing
+### Command Line Arguments
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests and ensure pre-commit hooks pass
-5. Submit a pull request
+| Argument | Description | Default |
+|----------|-------------|----------|
+| `--prompt` | Initial user prompt for prototyping (required) | - |
+| `--url` | LM Studio API URL | `http://localhost:1234` |
+| `--output-json` | Custom JSON output filename | Auto-generated |
+| `--output-md` | Custom Markdown output filename | Auto-generated |
+| `--interactive` | Run in interactive mode | False |
 
-## License
+## 📊 Data Flow
 
-TODO: Add license information
+```mermaid
+flowchart LR
+    subgraph Input ["📥 Input Layer"]
+        A[User Prompt]
+        B[CLI Arguments]
+        C[Configuration]
+    end
+
+    subgraph Processing ["⚙️ Processing Layer"]
+        D[Problem Statement]
+        E[User Personas]
+        F[Use Cases]
+        G[Tool Outline]
+        H[Implementation Plan]
+        I[Presentation Prompt]
+        J[Plan Evaluation]
+    end
+
+    subgraph AI ["🤖 AI Layer"]
+        K[LM Studio API]
+        L[Local AI Model]
+        M[System Prompts]
+    end
+
+    subgraph Output ["📤 Output Layer"]
+        N[JSON Report]
+        O[Markdown Report]
+        P[Console Display]
+        Q[File System]
+    end
+
+    %% Input to Processing Flow
+    A --> D
+    B --> D
+    C --> D
+
+    %% Sequential Processing Flow
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+
+    %% AI Integration
+    D <--> K
+    E <--> K
+    F <--> K
+    G <--> K
+    H <--> K
+    I <--> K
+    J <--> K
+
+    K <--> L
+    M --> K
+
+    %% Output Generation
+    J --> N
+    J --> O
+    J --> P
+    N --> Q
+    O --> Q
+
+    %% Styling
+    classDef inputStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef processStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef aiStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef outputStyle fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+
+    class A,B,C inputStyle
+    class D,E,F,G,H,I,J processStyle
+    class K,L,M aiStyle
+    class N,O,P,Q outputStyle
+```
+
+## 📝 Example Output
+
+The tool generates two types of output files:
+
+### JSON Report
+```json
+{
+  "problem_statement": "Detailed problem analysis...",
+  "personas": "User persona descriptions...",
+  "use_cases": "Comprehensive use case scenarios...",
+  "tool_outline": "Technical architecture and features...",
+  "implementation_instructions": "Step-by-step development guide...",
+  "copilot_prompt": "Ready-to-use CoPilot365 prompt...",
+  "plan_evaluation": "Assessment and next steps..."
+}
+```
+
+### Markdown Report
+A formatted report with all sections, perfect for sharing with teams or stakeholders.
+
+## 📚 Documentation
+
+Detailed documentation is available in the `docs/` directory:
+
+- [`architecture.mmd`](docs/architecture.mmd) - System architecture diagram
+- [`workflow.mmd`](docs/workflow.mmd) - Sequence diagram of the analysis process
+- [`class-structure.mmd`](docs/class-structure.mmd) - Class relationships and structure
+- [`data-flow.mmd`](docs/data-flow.mmd) - Data flow visualization
+- [`user-journey.mmd`](docs/user-journey.mmd) - User journey mapping
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+1. **Connection Error to LM Studio**
+   - Ensure LM Studio is running and the server is started
+   - Check that the URL is correct (default: http://localhost:1234)
+   - Verify that a model is loaded in LM Studio
+
+2. **Timeout Errors**
+   - Large prompts may take longer to process
+   - Consider using a faster model or reducing complexity
+   - Check your system resources
+
+3. **Empty or Poor Quality Responses**
+   - Try a different AI model in LM Studio
+   - Ensure your prompt is clear and specific
+   - Check that the model is properly loaded
+
+### Debug Mode
+```bash
+python ai_prototyping_tool.py --prompt "Your idea" --verbose
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+### Development Setup
+```bash
+git clone https://github.com/your-username/AI-Prototyping-Tool.git
+cd AI-Prototyping-Tool
+pip install -r requirements.txt
+pip install -e .
+```
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [LM Studio](https://lmstudio.ai/) for providing an excellent local AI model interface
+- The open-source AI community for developing amazing language models
+- Contributors who help improve this tool
+
+---
+
+**Made with ❤️ for the prototyping community**
