@@ -13,12 +13,12 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 setup(
     name="ai-prototyping-tool",
     version="0.1.0",
-    author="Your Name",
-    author_email="your.email@example.com",
+    author="Sam Fleming",
+    author_email="info@samplayskeys.com",
     description="A powerful tool for rapid AI application prototyping",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/ai-prototyping-tool",
+    url="https://github.com/SamPlaysKeys/AI-Prototyping-Tool",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",

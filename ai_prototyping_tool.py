@@ -5,7 +5,8 @@ AI Prototyping Tool
 A tool that uses LM Studio to guide users through the complete prototyping process,
 from initial idea to implementation plan and presentation generation.
 
-Author: AI Assistant
+Author: Sam Fleming (SamPlaysKeys)
+Email: info@samplayskeys.com
 Date: 2025-06-03
 """
 

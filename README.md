@@ -327,7 +327,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ### Development Setup
 ```bash
-git clone https://github.com/your-username/AI-Prototyping-Tool.git
+git clone https://github.com/SamPlaysKeys/AI-Prototyping-Tool.git
 cd AI-Prototyping-Tool
 pip install -r requirements.txt
 pip install -e .
