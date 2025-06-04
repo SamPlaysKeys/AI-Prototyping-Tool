@@ -87,3 +87,8 @@ tmp/
 *.pem
 secrets/
 config/secrets/
+
+# TODO and personal notes
+TODO.md
+NOTES.md
+*.todo

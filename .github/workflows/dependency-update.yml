@@ -1,10 +1,12 @@
 name: Dependency Updates
 
 on:
-  schedule:
-    # Run every Monday at 9 AM UTC
-    - cron: '0 9 * * 1'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch: # Manual trigger only
+  # Automatic triggers disabled - see TODO.md for setup instructions
+  # Uncomment when ready:
+  # schedule:
+  #   # Run every Monday at 9 AM UTC
+  #   - cron: '0 9 * * 1'
 
 jobs:
   update-dependencies:

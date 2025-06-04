@@ -1,5 +1,11 @@
 # AI Prototyping Tool
 
+[![CI/CD](https://github.com/SamPlaysKeys/AI-Prototyping-Tool/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/SamPlaysKeys/AI-Prototyping-Tool/actions/workflows/ci-cd.yml)
+[![Code Quality](https://github.com/SamPlaysKeys/AI-Prototyping-Tool/actions/workflows/code-quality.yml/badge.svg)](https://github.com/SamPlaysKeys/AI-Prototyping-Tool/actions/workflows/code-quality.yml)
+[![codecov](https://codecov.io/gh/SamPlaysKeys/AI-Prototyping-Tool/branch/main/graph/badge.svg)](https://codecov.io/gh/SamPlaysKeys/AI-Prototyping-Tool)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+
 A comprehensive tool that uses LM Studio and local AI models to guide users through the complete prototyping process, from initial idea to implementation plan and presentation generation.
 
 ## 🎯 Overview
@@ -321,6 +327,63 @@ Detailed documentation is available in the `docs/` directory:
 python ai_prototyping_tool.py --prompt "Your idea" --verbose
 ```
 
+## 🚀 CI/CD & Deployment
+
+This project includes comprehensive GitHub Actions workflows for continuous integration and deployment.
+
+### 🔄 Automated Workflows
+
+- **CI/CD Pipeline**: Multi-version Python testing, code quality, security scanning
+- **Code Quality**: Black, flake8, mypy, bandit security checks
+- **Dependency Updates**: Weekly automated dependency updates
+- **Release Management**: Automated releases with changelog generation
+
+### ⚠️ Setup Required
+
+**Note**: GitHub Actions are currently configured for manual triggers only. To enable full CI/CD:
+
+#### 1. Configure Repository Secrets
+
+Go to GitHub repository → Settings → Secrets and variables → Actions:
+
+```bash
+# Required for PyPI publishing
+PYPI_API_TOKEN=pypi-...         # Get from https://pypi.org
+TEST_PYPI_API_TOKEN=pypi-...     # Get from https://test.pypi.org
+
+# Optional for enhanced features
+CODECOV_TOKEN=your-token         # Get from https://codecov.io
+SLACK_WEBHOOK_URL=https://hooks.slack.com/... # For notifications
+```
+
+#### 2. Enable Automatic Triggers
+
+Uncomment trigger sections in `.github/workflows/*.yml` files:
+
+```yaml
+# In ci-cd.yml, code-quality.yml, dependency-update.yml
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 9 * * 1'  # Weekly dependency updates
+```
+
+#### 3. Set Up External Services
+
+- **PyPI Account**: Create accounts at [PyPI](https://pypi.org) and [TestPyPI](https://test.pypi.org)
+- **CodeCov**: Sign up at [codecov.io](https://codecov.io) for coverage reporting
+- **Slack Integration**: Create Slack app with incoming webhooks (optional)
+
+### 📊 Available Workflows
+
+- `ci-cd.yml`: Complete CI/CD pipeline with testing, building, and deployment
+- `code-quality.yml`: Code quality enforcement with multiple tools
+- `dependency-update.yml`: Automated dependency management
+- `release.yml`: Release automation with changelog generation
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
@@ -331,6 +394,24 @@ git clone https://github.com/SamPlaysKeys/AI-Prototyping-Tool.git
 cd AI-Prototyping-Tool
 pip install -r requirements.txt
 pip install -e .
+```
+
+### Code Quality
+
+Before submitting PRs, ensure code quality:
+
+```bash
+# Format code
+black src/ cli/ tests/
+
+# Sort imports
+isort src/ cli/ tests/
+
+# Check linting
+flake8 src/ cli/ tests/
+
+# Run tests
+pytest tests/ -v --cov=src --cov=cli
 ```
 
 ## 📜 License

@@ -1,12 +1,15 @@
 name: CI/CD Pipeline
 
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
-  release:
-    types: [ published ]
+  workflow_dispatch: # Manual trigger only
+  # Automatic triggers disabled - see TODO.md for setup instructions
+  # Uncomment when ready:
+  # push:
+  #   branches: [ main, develop ]
+  # pull_request:
+  #   branches: [ main ]
+  # release:
+  #   types: [ published ]
 
 env:
   PYTHON_VERSION: '3.11'

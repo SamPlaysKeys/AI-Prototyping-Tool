@@ -1,10 +1,13 @@
 name: Code Quality
 
 on:
-  pull_request:
-    branches: [ main, develop ]
-  push:
-    branches: [ main, develop ]
+  workflow_dispatch: # Manual trigger only
+  # Automatic triggers disabled - see TODO.md for setup instructions
+  # Uncomment when ready:
+  # pull_request:
+  #   branches: [ main, develop ]
+  # push:
+  #   branches: [ main, develop ]
 
 jobs:
   code-quality:
